@@ -62,15 +62,15 @@ class Net(nn.Module):
             # nn.MaxPool2d(3,2,padding=1),
         )
         # 32 40 40
-        self.layer1 = make_layers(32,32,2,False)
+        self.layer1 = make_layers(32,64,2,False)
         # 32 40 40  
-        self.layer2 = make_layers(32,64,2,True)
+        self.layer2 = make_layers(64,128,2,True)
         # 64 20 20 
-        self.layer3 = make_layers(64,128,2,True)
+        self.layer3 = make_layers(128,256,2,True)
         # 128 10 10
-        self.layer4 = make_layers(128,256,2,True)
+        self.layer4 = make_layers(256,256,2,True)
         # 256 5 5
-        self.avgpool = nn.AvgPool2d(5,0)
+        self.avgpool = nn.AvgPool2d(5,padding=0)
         # 256 1 1 
         self.classifier = nn.Linear(256, num_classes)
     
