@@ -17,7 +17,7 @@ from termcolor import colored
 from scipy.spatial.distance import cdist
 # from original_model import Net
 # from original_model64 import Net
-from model80_v2_2 import Net
+from model80_v2_3 import Net
 from utils import market1501, veri776, util, eval_tools, fused_dataset, triplet, sampler
 
 parser = argparse.ArgumentParser(description="Train on market1501 and veri776")
@@ -31,7 +31,7 @@ parser.add_argument('--image_size', default=80, type=int, help='input image size
 parser.add_argument('--batch_size', default=512, type=int, help='Batch size for training')
 parser.add_argument('--resume', default=None, type=str, help='Checkpoint state_dict file to resume training from.')
 parser.add_argument('--num_workers', default=0, type=int)
-parser.add_argument('--margin', default=1.5, type=float)
+parser.add_argument('--margin', default=1.0, type=float)
 args = parser.parse_args()
 
 # device
