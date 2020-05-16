@@ -48,7 +48,8 @@ queryloader = torch.utils.data.DataLoader(query_set, batch_size=args.batch_size,
 
 # net definition
 num_classes = len(np.unique(train_set.ids))
-net = Net(num_classes=num_classes)
+# net = Net(num_classes=num_classes)
+net = Net(452)
 assert os.path.isfile(args.checkpoint), "Error: no checkpoint file found!"
 
 checkpoint = torch.load(args.checkpoint)
