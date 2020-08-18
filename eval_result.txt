@@ -19,6 +19,8 @@ Dataset: Market-1501 + VeRi-776 margin=1.2
 
 	model:tri_ckpt_502.t7  mAP=0.521555, r@1=0.984740, r@3=0.993064, r@5=0.995046, r@10=0.997622
 
+	model:spp2_ckpt_149.t7 mAP=0.528176, r@1=0.980777, r@3=0.991875, r@5=0.995046, r@10=0.996036
+
 Dataset: KITTI MOTS box-reid margin=1.2
 	model:motsbox_tune_499.t7  mAP=0.923096, r@1=0.935841, r@3=0.960177, r@5=0.971239, r@10=0.982301
 

@@ -15,27 +15,38 @@
         //         //  "--resume=/home/kun/yolo_deep_sort_pytorch-master/deep_sort/person_vehicle_reid/checkpoint/ckpt_50.t7"]
         //     ]    
         // }
-        // {
-        //     "name": "Python: test.py",
-        //     "type": "python",
-        //     "request": "launch",
-        //     "program": "${workspaceFolder}/test.py",
-        //     "console": "integratedTerminal",
-        //     "args": ["--market_dir=/home/kun/Market-1501-v15.09.15", "--veri_dir=/home/kun/VeRi",
-        //          "--checkpoint=checkpoint/v1_2_ckpt_99.t7"]
-            
-        // }
         {
-            "name": "Python: mots_tunetrain.py",
+            "name": "Python: test.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/mots_tunetrain.py",
+            "program": "${workspaceFolder}/test.py",
             "console": "integratedTerminal",
-            "args": ["--mots_dir=/home/kun/KITTI_MOTS/mask_reid",
-                "--interval=3", "--num_workers=0", "--resume=checkpoint/tri_ckpt_449.t7",
-                "--init_from=pretrain", "--start_epoch=0"
-            ]    
+            "args": ["--market_dir=/home/kun/Market-1501-v15.09.15", "--veri_dir=/home/kun/VeRi",
+                 "--checkpoint=checkpoint/spp2_ckpt_101.t7"]
+            
         }
+        // {
+        //     "name": "Python: mots_tunetrain.py",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${workspaceFolder}/mots_tunetrain.py",
+        //     "console": "integratedTerminal",
+        //     "args": ["--mots_dir=/home/kun/KITTI_MOTS/mask_reid",
+        //         "--interval=3", "--num_workers=0", "--resume=checkpoint/tri_ckpt_449.t7",
+        //         "--init_from=pretrain", "--start_epoch=0"
+        //     ]    
+        // }
+        // {
+        //     "name": "Python: spp_pretrain.py",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${workspaceFolder}/spp_pretrain.py",
+        //     "console": "integratedTerminal",
+        //     "args": ["--market_dir=/home/d205-kun/Market-1501-v15.09.15",
+        //         "--veri_dir=/home/d205-kun/VeRi",
+        //         "--interval=3", "--num_workers=0","--batch_size=16"
+        //     ]    
+        // }
         // {
         //     "name": "Python: mots_test.py",
         //     "type": "python",

@@ -1,6 +1,7 @@
 import sys
-sys.path.append('/home/aistudio/external-libraries')
-
+# sys.path.append('/home/aistudio/external-libraries')
+if '/opt/ros/kinetic/lib/python2.7/dist-packages' in sys.path:
+    sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 import argparse
 import os
 import time
@@ -15,7 +16,7 @@ from termcolor import colored
 
 from scipy.spatial.distance import cdist
 # from original_model import Net
-from model64_v1_2 import Net
+from model_spp2 import PVRFNet_SPP
 from utils import market1501, veri776, util, eval_tools, fused_dataset, triplet, sampler
 
 parser = argparse.ArgumentParser(description="Train on market1501 and veri776")
@@ -23,7 +24,7 @@ parser.add_argument("--market_dir",default='data',type=str)
 parser.add_argument("--veri_dir",default='data',type=str)
 parser.add_argument("--no-cuda",action="store_true")
 parser.add_argument("--gpu-id",default=0,type=int)
-parser.add_argument('--batch_size', default=512, type=int, help='Batch size for test')
+parser.add_argument('--batch_size', default=1024, type=int, help='Batch size for test')
 parser.add_argument('--num_workers', default=0, type=int, help='threads to load data')
 parser.add_argument('--checkpoint', default=None, type=str, help='Checkpoint state_dict file to evaluate.')
 args = parser.parse_args()
@@ -56,7 +57,7 @@ queryloader = torch.utils.data.DataLoader(data.query, batch_size=args.batch_size
 
 # net definition
 num_classes = len(np.unique(data.train.ids))
-net = Net(num_classes=num_classes)
+net = PVRFNet_SPP(num_classes=num_classes)
 assert os.path.isfile(args.checkpoint), "Error: no checkpoint file found!"
 
 checkpoint = torch.load(args.checkpoint)
