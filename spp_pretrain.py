@@ -34,7 +34,7 @@ parser.add_argument('--ids_minibatch', default=4, type=int, help='pic num of eac
 parser.add_argument('--resume', default=None, type=str, help='Checkpoint state_dict file to resume training from.')
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--margin', default=1.2, type=float)
-parser.add_argument('--epoches', default=100, type=float)
+parser.add_argument('--epoches', default=200, type=float)
 args = parser.parse_args()
 
 #### 训Triplet需要大batch_size，小ids_minibatch ###
@@ -74,7 +74,7 @@ queryloader = torch.utils.data.DataLoader(data.query, batch_size=1024, num_worke
 num_classes = len(np.unique(data.train.ids))
 start_epoch = 0
 start_lr = args.lr
-lr_adjust_list = [60,90,160,180]
+lr_adjust_list = [60,90,120,130,170,200]
 #lr_adjust_list = [240]
 net = PVRFNet_SPP(num_classes=num_classes)
 if args.resume is not None:
@@ -203,7 +203,7 @@ def main():
                 }
                 if not os.path.isdir('checkpoint'):
                     os.mkdir('checkpoint')
-                ckpt_path = "checkpoint/spp2_ckpt_" + str(epoch) + ".t7" 
+                ckpt_path = "checkpoint/spp3_ckpt_" + str(epoch) + ".t7" 
                 torch.save(checkpoint, ckpt_path)
             # draw_curve(epoch, train_loss, train_err, test_loss, test_err)
             # if (epoch+1)%10==0:
@@ -216,7 +216,7 @@ def main():
                 }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
-        ckpt_path = "checkpoint/spp2_ckpt_" + str(epoch) + ".t7" 
+        ckpt_path = "checkpoint/spp3_ckpt_" + str(epoch) + ".t7" 
         torch.save(checkpoint, ckpt_path)
         
 

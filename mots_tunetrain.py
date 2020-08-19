@@ -15,7 +15,7 @@ from termcolor import colored
 
 from scipy.spatial.distance import cdist
 # from original_model import Net
-from model64_v1_2 import Net
+from model_spp2 import PVRFNet_SPP
 from utils import mots_reid, util, eval_tools, triplet, sampler
 
 parser = argparse.ArgumentParser(description="Fine-tuning on mots reid dataset")
@@ -23,14 +23,15 @@ parser.add_argument("--mots_dir",default='data',type=str)
 parser.add_argument("--no-cuda",action="store_true")
 parser.add_argument("--gpu-id",default=0,type=int)
 parser.add_argument("--lr",default=0.0001, type=float)
+parser.add_argument("--lr_step",default=0.3, type=float)
 parser.add_argument("--interval",'-i',default=20,type=int)
-parser.add_argument('--batch_size', default=1024, type=int, help='Batch size for training')
+parser.add_argument('--batch_size', default=1600, type=int, help='Batch size for training')
 parser.add_argument('--resume', default=None, type=str, help='Checkpoint state_dict file to resume training from.')
 parser.add_argument('--init_from', default="interrupt", type=str, help='init from pretrained model or interrupt model')
 parser.add_argument('--num_workers', default=0, type=int)
-parser.add_argument('--margin', default=1.5, type=float)
+parser.add_argument('--margin', default=1.2, type=float)
 parser.add_argument('--num_ids', default=8, type=int)
-parser.add_argument('--epoches', default=500, type=int)
+parser.add_argument('--epoches', default=800, type=int)
 parser.add_argument('--start_epoch', default=None, type=int)
 args = parser.parse_args()
 
@@ -69,10 +70,10 @@ queryloader = torch.utils.data.DataLoader(query_set, batch_size=args.batch_size,
 num_classes = len(np.unique(train_set.ids))
 start_epoch = 0
 start_lr = args.lr
-# lr_adjust_list = [ 280, 320, 400, 460]
-lr_adjust_list = [220, 430]
-# lr_adjust_list = [85, 120]
-net = Net(num_classes=num_classes)
+# lr_adjust_list = [280, 320, 400, 460]
+lr_adjust_list = [80, 130, 190]
+# lr_adjust_list = [280]
+net = PVRFNet_SPP(num_classes=num_classes)
 
 if args.resume is not None:
     assert os.path.isfile(args.resume), "Error: no checkpoint file found!"
@@ -84,7 +85,7 @@ if args.resume is not None:
         new_lr_adjust_list = []
         for step in lr_adjust_list:
             if start_epoch >= step:
-                start_lr *= 0.1 
+                start_lr *= args.lr_step 
             else:
                 new_lr_adjust_list.append(step)
         for i in range(len(new_lr_adjust_list)):
@@ -113,7 +114,6 @@ if args.resume is not None:
                 value.requires_grad = False
 
     
-
 print("parameters to train:")
 for name, value in net.named_parameters():    
     if value.requires_grad:
@@ -127,7 +127,7 @@ trp_loss = triplet.TripletSemihardLoss(args.margin)
 # trp2_loss = triplet.TripletLoss(args.margin)
 optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, net.parameters()), lr=start_lr, betas=(0.9, 0.99), weight_decay=0.0005)
 # optimizer = torch.optim.SGD(net.parameters(), start_lr, momentum=0.9, weight_decay=5e-3)
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, lr_adjust_list, gamma=0.1)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, lr_adjust_list, gamma=args.lr_step)
 best_acc = 0.
 
 # train function for each epoch
@@ -223,7 +223,7 @@ def main():
                 }
                 if not os.path.isdir('checkpoint'):
                     os.mkdir('checkpoint')
-                ckpt_path = "checkpoint/mots2_tune_" + str(epoch) + ".t7" 
+                ckpt_path = "checkpoint/motsspp_tune_" + str(epoch) + ".t7" 
                 torch.save(checkpoint, ckpt_path)
             # draw_curve(epoch, train_loss, train_err, test_loss, test_err)
             # if (epoch+1)%10==0:
@@ -236,7 +236,7 @@ def main():
                 }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
-        ckpt_path = "checkpoint/mots2_tune_" + str(epoch) + ".t7" 
+        ckpt_path = "checkpoint/motsspp_tune_" + str(epoch) + ".t7" 
         torch.save(checkpoint, ckpt_path)
         
 
