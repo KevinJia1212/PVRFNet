@@ -28,6 +28,19 @@ def spatial_pyramid_pool(feature_maps,out_pool_size):
             spp = torch.cat((spp,x.view(x.size(0),-1)), 1)
     return spp
 
+def spp(feature_maps, out_pool_size):
+    '''
+    replaced the max pooling module of spp by adaptive average pooling
+    '''
+    for i in range(len(out_pool_size)):
+        avgp = nn.AdaptiveAvgPool2d(out_pool_size[i])
+        x = avgp(feature_maps)
+        if i == 0:
+            spp = x.view(x.size(0), -1)
+        else:
+            spp = torch.cat((spp, x.view(x.size(0), -1)), -1)
+    return spp
+
 class BasicBlock(nn.Module):
     def __init__(self, c_in, c_out,is_downsample=False):
         super(BasicBlock,self).__init__()
@@ -94,19 +107,21 @@ class PVRFNet_SPP(nn.Module):
         # 128 16 16
         self.layer3 = make_layers(128,256,2,True)
         #spp_pool 256*(2*2 + 1*1) = 1280
+
         self.reduction = nn.Sequential(
             nn.Linear(1280, 256),
             nn.BatchNorm1d(256)
         )
         self.classifier = nn.Linear(256, num_classes)
-    
+
     def forward(self, x):
         x = self.conv(x)
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
         #x = self.avgpool(x)
-        x = spatial_pyramid_pool(x, self.output_num)
+        # x = spatial_pyramid_pool(x, self.output_num)
+        x = spp(x, self.output_num)
         x = self.reduction(x)
         #x = x.view(x.size(0),-1)
         fine_feature = F.normalize(x, p=2, dim=1)

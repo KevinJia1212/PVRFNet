@@ -19,7 +19,9 @@ Dataset: Market-1501 + VeRi-776 margin=1.2
 
 	model:tri_ckpt_502.t7  mAP=0.521555, r@1=0.984740, r@3=0.993064, r@5=0.995046, r@10=0.997622
 
-	model:spp2_ckpt_149.t7 mAP=0.528176, r@1=0.980777, r@3=0.991875, r@5=0.995046, r@10=0.996036
+	model:spp2_ckpt_149.t7 mAP=0.528176, r@1=0.980777, r@3=0.991875, r@5=0.995046, r@10=0.996036   # spp og
+
+	model:spp3_ckpt_149.t7 mAP=0.542487, r@1=0.984146, r@3=0.992271, r@5=0.994847, r@10=0.996235   # spp-avg pool
 
 Dataset: KITTI MOTS box-reid margin=1.2
 	model:motsbox_tune_499.t7  mAP=0.923096, r@1=0.935841, r@3=0.960177, r@5=0.971239, r@10=0.982301
@@ -28,9 +30,11 @@ Dataset: KITTI MOTS mask-reid  margin-0.8
 	model:motsmask08_tune_999.t7   mAP=0.870616, r@1=0.878319, r@3=0.909292, r@5=0.929204, r@10=0.949115
 Dataset: KITTI MOTS mask-reid  margin-1.0
 	model:motsmask10_tune_820.t7   mAP=0.884067, r@1=0.889381, r@3=0.922566, r@5=0.944690, r@10=0.957965
+	model:motsspp10_tune_499.t7    mAP=0.869124, r@1=0.886128, r@3=0.919255, r@5=0.931677, r@10=0.946170
 Dataset: KITTI MOTS mask-reid  margin-1.2
-	model:motsmask2_tune_499.t7  mAP=0.858872, r@1=0.871681, r@3=0.918142, r@5=0.933628, r@10=0.953540
-	Dataset: KITTI MOTS mask-reid  margin-1.5
+	model:motsmask2_tune_499.t7    mAP=0.858872, r@1=0.871681, r@3=0.918142, r@5=0.933628, r@10=0.953540
+	model:motsspp12_tune_773.t7    mAP=0.868004, r@1=0.888199, r@3=0.910973, r@5=0.917184, r@10=0.933747
+Dataset: KITTI MOTS mask-reid  margin-1.5
 	model:motsmask15_tune_999.t7   mAP=0.868393, r@1=0.878319, r@3=0.922566, r@5=0.935841, r@10=0.953540
 Dataset: KITTI MOTS mask-reid  margin-1.7
 	model:motsmask17_tune_499.t7   mAP=0.697675, r@1=0.789823, r@3=0.831858, r@5=0.860619, r@10=0.878319
